@@ -1,5 +1,4 @@
 from keyword_modules.textrank import TextRank
-from keyword_modules.corpus import doc_loader
 import nltk.tokenize
 
 from typing import List, Optional

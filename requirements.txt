@@ -1,11 +1,12 @@
-gradio
 torch
+gradio
 transformers
 accelerate
 bitsandbytes
 kss
-xformers
 googletrans
 nltk
 konlpy
 scipy
+
+# Optional : pip install xformers
