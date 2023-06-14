@@ -9,3 +9,4 @@ googletrans
 nltk
 konlpy
 scipy
+diffusers[torch]
