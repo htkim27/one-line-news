@@ -6,3 +6,6 @@ bitsandbytes
 kss
 xformers
 googletrans
+nltk
+konlpy
+scipy
