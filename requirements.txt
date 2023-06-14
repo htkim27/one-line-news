@@ -8,5 +8,6 @@ googletrans
 nltk
 konlpy
 scipy
+diffusers
 
 # Optional : pip install xformers
