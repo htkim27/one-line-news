@@ -1,4 +1,4 @@
-from keyword_modules.textrank import TextRank
+from .keyword_modules import TextRank
 import nltk.tokenize
 
 from typing import List, Optional
