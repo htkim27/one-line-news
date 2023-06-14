@@ -21,4 +21,4 @@ class  StableDiffusion:
         
 if __name__ == "__main__":
     generator = StableDiffusion(model_id ="CompVis/stable-diffusion-v1-4")
-    output = generator.generate('여자')
+    output = generator.generate('사람')
