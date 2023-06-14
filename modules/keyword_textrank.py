@@ -15,11 +15,14 @@ class TextRankExtractor:
         
         
     def keyword_extract(self, 
-                        sents:List[str]):
-        sents_ = nltk.tokenize.sent_tokenize(sents)
-        for sent in sents_:
+                        document:str) -> List[str]:
+        sents = nltk.tokenize.sent_tokenize(document)
+        for sent in sents:
             self.inst.build_keywords(sent)
-        return self.inst.get_keywords(self.max, self.combined_keywords)
+        keywords = self.inst.get_keywords(self.max, self.combined_keywords)
+        only_keywords = [keyword_tuple[0] for keyword_tuple in keywords]
+        
+        return only_keywords
     
     
     def _stopwords(self, stopwords_path:Optional[str]="") -> List[str]:
@@ -59,10 +62,7 @@ if __name__ == "__main__":
 한편 삼성전자는 작년 10월 기준 56개 IP 파트너와 함께 4천개 이상의 IP를 제공하고 있다. 2017년 파운드리사업부 출범 이후 IP 파트너와 IP 개수를 지속적으로 늘리며 3배 수준으로 성장했다.
 
 신종신 삼성전자 파운드리사업부 부사장은 “글로벌 IP 파트너 외에 국내 IP 파트너사와의 협력도 확대해 고객의 혁신 제품 개발과 양산을 더 쉽고 빠르게 지원해 나가겠다”고 밝혔다."""
-    
-    
-    keywords = keyword_extractor.keyword_extract(sents = document)
-    
-    only_keywords = [keyword_tuple[0] for keyword_tuple in keywords]
+        
+    only_keywords = keyword_extractor.keyword_extract(sents = document)
     
     print(only_keywords)

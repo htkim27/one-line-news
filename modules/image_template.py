@@ -1,8 +1,6 @@
 from typing import Tuple
 
-from PIL import Image, ImageOps, ImageDraw, ImageFont
-
-
+from PIL import Image, ImageDraw, ImageFont
 
 class ImageTemplate:
     
@@ -26,9 +24,9 @@ class ImageTemplate:
         self.font_color = font_color
         self.font_path = font_path
     
-    def make_image_template(self,
-                            image:Image.Image,
-                            text:str) -> Image.Image:
+    def make(self,
+             image:Image.Image,
+             text:str) -> Image.Image:
         
         new_width = image.width + self.width_margin
         new_height = image.height + self.height_margin
@@ -44,7 +42,7 @@ class ImageTemplate:
         # text
         text_position = (x, int(new_height - (new_height-image.height)/2))
 
-        font = ImageFont.truetype(self.font_path, self.font_size)  # Replace with the actual font file path
+        font = ImageFont.truetype(self.font_path, self.font_size, encoding="unic")  # Replace with the actual font file path
         draw = ImageDraw.Draw(canvas)
         draw.text(text_position, text, font=font, fill=self.font_color)
         
@@ -61,33 +59,3 @@ if __name__ == "__main__":
     
     image.save("./test3_out.png")
         
-
-# # Open the image
-# image = Image.open('path/to/your/image.jpg')
-
-# # Calculate the new size
-# new_width = image.width + 100  # 50 pixels on each side
-# new_height = image.height + 400  # 50 pixels on each side
-
-# # Create a new white canvas with the desired size
-# canvas = Image.new('RGB', (new_width, new_height), (255, 255, 255))
-
-# # Calculate the position to paste the original image
-# x = int((new_width - image.width) / 2)
-# y = int((new_height - image.height) / 4)
-
-# # Paste the original image onto the canvas
-# canvas.paste(image, (x, y))
-
-# # Add text to the bottom side
-# text = "Your text here"
-# font_size = 16
-# font_color = (0, 0, 0)  # Black
-# text_position = (10, new_height - 30)  # Adjust the position as needed
-
-# font = ImageFont.truetype("path/to/your/font.ttf", font_size)  # Replace with the actual font file path
-# draw = ImageDraw.Draw(canvas)
-# draw.text(text_position, text, font=font, fill=font_color)
-
-# # Save the extended image with text
-# canvas.save('path/to/save/extended_image_with_text.jpg')

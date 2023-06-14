@@ -14,7 +14,7 @@ class DistilGPT2:
         """
         self.tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
         self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-        self.model = GPT2LMHeadModel.from_pretrained('FredZhang7/distilgpt2-stable-diffusion-v2')
+        self.model = GPT2LMHeadModel.from_pretrained('FredZhang7/distilgpt2-stable-diffusion')
         
     def generate(self, 
                  prompt:str = "",
