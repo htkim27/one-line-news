@@ -5,10 +5,12 @@ one-line-news
 ![Architecture](./architecture.png)
 
 ## Examples
-- 구상 😊
+- 원하던 모습 😊
+
 ![Example](./example.png)
 
 - 실제 예시 ㅠ
+
 ![Example2](./example_2.png)
 
 ## gradio (temp)
