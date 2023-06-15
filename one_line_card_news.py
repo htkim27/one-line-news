@@ -13,8 +13,6 @@ from modules import (TextRankExtractor,
 
 STOPWORDS_PATH = "./stopwordsKor.txt"
 GPT_MODEL = "htkim27/one-line-news"
-# STABLE_DIFFUSION = "CompVis/stable-diffusion-v1-4"
-# DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion"
 DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion-v2"
 STABLE_DIFFUSION = "stabilityai/stable-diffusion-2-1-base"
 TEXT_FONT = "./font/korean_font.ttf"
