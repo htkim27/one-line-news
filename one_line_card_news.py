@@ -13,7 +13,7 @@ from modules import (TextRankExtractor,
                      ImageTemplate)
 
 
-STOPWORDS_PATH = "./stopwordsKor.txt"
+STOPWORDS_PATH = "./stopwords/stopwordsKor.txt"
 GPT_MODEL = "htkim27/one-line-news"
 DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion-v2"
 STABLE_DIFFUSION = "stabilityai/stable-diffusion-2-1-base"
