@@ -46,6 +46,6 @@ https://0356653db91ac43b60.gradio.live
 ![Example2](./image/example_2.png)
 
 ## Reference
-ployglot-ko-1.3b : https://huggingface.co/EleutherAI/polyglot-ko-1.3b
-KoAlpaca - github : https://github.com/Beomi/KoAlpaca
-treform - github : https://github.com/MinSong2/treform
+- ployglot-ko-1.3b : https://huggingface.co/EleutherAI/polyglot-ko-1.3b
+- KoAlpaca - github : https://github.com/Beomi/KoAlpaca
+- treform - github : https://github.com/MinSong2/treform
