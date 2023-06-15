@@ -165,14 +165,20 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
                              label="Card-News", 
                              show_label=True)
 
-    # with gr.Row():
-    #     chatbot = gr.Chatbot(elem_id="keyword", label="Keywords")
+    with gr.Row():
+        gr.HTML(
+            """<div style="text-align: center; max-width: 500px; margin: 0 auto;">
+            <div>
+                <h3>👇 뉴스기사 / 나무위키 / 위키피디아 글 넣기 👇</h3>
+            </div>
+        </div>"""
+        )
+
 
     with gr.Row():
         document = gr.Textbox(label = "Input", 
-                              show_label=True, 
                               placeholder="뉴스 기사 전체를 넣어주세요").style(
-            container=False
+            container=True
         )
     image_path = "./deeptext_logo.png"
     link = "https://github.com/htkim27/one-line-news"
@@ -313,7 +319,7 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
                 
             </div>
             <div>
-                <h2>Github Link 👇 </h2> <a href='{link}'>GitHub Link</a>
+                <h2>👇Github Link 👇 </h2> <a href='{link}'>GitHub Link</a>
 
             </div>
         </div>"""
@@ -328,5 +334,5 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
 demo.launch(debug=True, 
             server_name="0.0.0.0", 
             server_port=7777,
-            # share=True
+            share=True
             )
