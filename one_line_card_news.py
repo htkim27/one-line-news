@@ -1,5 +1,7 @@
 from typing import List, Iterable
 
+from time import sleep
+
 import gradio as gr
 from PIL import Image
 
@@ -29,6 +31,14 @@ image_template = ImageTemplate(font_path=TEXT_FONT)
 
 # Keyword function
 def keyword_func(document:str)->str:
+    """
+
+    Args:
+        document (str): news or namu wiki document
+
+    Returns:
+        str: keywords delimitered with ,
+    """
     keywords_l:List[str] = keyword_extractor.keyword_extract(document)
     keywords = ", ".join(keywords_l)
     
@@ -36,18 +46,42 @@ def keyword_func(document:str)->str:
 
 # One line news function
 def one_line_news_func(keywords:str)->str:
+    """
+
+    Args:
+        keywords (str): keywords from keyword_func
+
+    Returns:
+        str: one-line-news form keywords
+    """
     one_line_news = one_line_news_generator.generate(keywords)
     
     return one_line_news
 
 # Translator
 def translator_func(keywords:str)->str:
+    """
+
+    Args:
+        keywords (str): keywords from keyword_func
+
+    Returns:
+        str: keywords translated in English
+    """
     translated_keywords = translator.translate(keywords)
     
     return translated_keywords
 
 # Distil GPT
 def auto_prompter_func(translated_keywords:str)->str:
+    """
+
+    Args:
+        translated_keywords (str): keywords translated in English
+
+    Returns:
+        str: auto generated prompt from distilgpt2 - stable diffusion
+    """
     prompts :List[str] = [prompt for prompt in auto_prompter.generate(translated_keywords)]
     prompt = prompts[0]
     
@@ -55,6 +89,15 @@ def auto_prompter_func(translated_keywords:str)->str:
 
 # Stable Diffusion
 def stable_diffusion_func(prompt:str)->Image.Image:
+    """
+
+    Args:
+        prompt (str): English prompt
+
+    Returns:
+        Image.Image: Generated One Image
+    """
+    
     image = stable_diffusion.generate(prompt)
     
     return image
@@ -62,6 +105,15 @@ def stable_diffusion_func(prompt:str)->Image.Image:
 # Image Template
 def image_template_func(image:Image.Image,
                         one_line_news:str) -> Image.Image:
+    """Make generated image into card-news shape
+
+    Args:
+        image (Image.Image): Generated Image
+        one_line_news (str): Text
+
+    Returns:
+        Image.Image: Card-News Image
+    """
     
     card_news = image_template.make(image=image, text=one_line_news)
     
@@ -70,17 +122,19 @@ def image_template_func(image:Image.Image,
 def generate_card_news(state:gr.State, document:str):
     
     keywords = keyword_func(document)
-    print("키워드 : ", keywords)
     one_line_news = one_line_news_func(keywords)
-    print("한줄뉴스 : ",one_line_news)
-    translated_keywords = translator_func(one_line_news+", "+keywords)
-    print("번역 : ", translated_keywords)
+    
+    # 공짜 google translator 한 번 씩 에러가 남
+    try:
+        translated_keywords = translator_func(one_line_news+", "+keywords)
+    except:
+        print("Translator Error")
+        sleep(3)
+        translated_keywords = translator_func(one_line_news+", "+keywords)
+        
     prompt = auto_prompter_func(translated_keywords)
-    print("프롬프트 : ", prompt)
     image = stable_diffusion_func(prompt)
-    print("이미지 : ", image)
     card_news = image_template_func(image, one_line_news)
-    print("카드뉴스 : ", card_news)
     
     state = [card_news]
     
