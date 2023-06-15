@@ -9,10 +9,20 @@ NEGATIVE_PROMPT = "unnatural, unrealistic, cartoon, illustration, painting, draw
 class StableDiffusion:
     def __init__(self, model_id:str) -> None:
         device="cuda"
+        
+        if ".safetensors" in model_id:
+            use_safetensors = True
+        else:
+            use_safetensors = False
+            
+        print(use_safetensors)
+        
         pipe = StableDiffusionPipeline.from_pretrained(model_id, 
                                                             revision='fp16',
                                                             torch_dtype=torch.float16,
-                                                            safety_checker=None,)
+                                                            safety_checker=None,
+                                                            use_safetensors = use_safetensors)
+                
         pipe = pipe.to(device)
         pipe.enable_xformers_memory_efficient_attention() 
         pipe.scheduler = DPMSolverSinglestepScheduler.from_config(

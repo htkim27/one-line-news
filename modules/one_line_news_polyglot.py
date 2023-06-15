@@ -12,7 +12,7 @@ class OneLineNewsGenerator:
             model_path,
             device_map="auto",
             torch_dtype = torch.float16,
-            revision="fp16",
+            # revision="fp16",
             low_cpu_mem_usage = True,
             # load_in_8bit=True,
             # revision="8bit",

@@ -8,13 +8,13 @@ class DistilGPT2:
     """
     
     
-    def __init__(self) -> None:
+    def __init__(self, model_id:str) -> None:
         """
         Init DistillGPT2 Model
         """
         self.tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
         self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-        self.model = GPT2LMHeadModel.from_pretrained('FredZhang7/distilgpt2-stable-diffusion')
+        self.model = GPT2LMHeadModel.from_pretrained(model_id)
         
     def generate(self, 
                  prompt:str = "",

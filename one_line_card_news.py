@@ -1,13 +1,7 @@
 from typing import List, Iterable
 
-import re
-from time import time
-
-import numpy as np
-
 import gradio as gr
 from PIL import Image
-
 
 from modules import (TextRankExtractor,
                      OneLineNewsGenerator, 
@@ -18,16 +12,19 @@ from modules import (TextRankExtractor,
 
 
 STOPWORDS_PATH = "./stopwordsKor.txt"
-GPT_MODEL = "./checkpoints/checkpoint-230"
-STABLE_DIFFUSION = "CompVis/stable-diffusion-v1-4"
-TEXT_FONT = "./korean_font.ttf"
+GPT_MODEL = "htkim27/one-line-news"
+# STABLE_DIFFUSION = "CompVis/stable-diffusion-v1-4"
+# DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion"
+DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion-v2"
+STABLE_DIFFUSION = "stabilityai/stable-diffusion-2-1-base"
+TEXT_FONT = "./font/korean_font.ttf"
 
 
 # init
 keyword_extractor = TextRankExtractor(stopwords_path=STOPWORDS_PATH)
 one_line_news_generator = OneLineNewsGenerator(model_path=GPT_MODEL)
 translator = GoogleTranslator()
-auto_prompter = DistilGPT2()
+auto_prompter = DistilGPT2(model_id=DISTILGPT_MODEL)
 stable_diffusion = StableDiffusion(model_id=STABLE_DIFFUSION)
 image_template = ImageTemplate(font_path=TEXT_FONT)
 
@@ -93,7 +90,7 @@ def generate_card_news(state:gr.State, document:str):
 
 ############## Gradio Things ##############
 
-with gr.Blocks(css="#card_news .overflow-y-auto{height:750px}") as demo:
+with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
     state = gr.State([])
     # state_chatbot = gr.State([])
 
@@ -278,6 +275,6 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:750px}") as demo:
 # share=True : 외부 IP에서 접근 가능한 public link 생성
 demo.launch(debug=True, 
             server_name="0.0.0.0", 
-            server_port=8882,
-            share=True
+            server_port=7777,
+            # share=True
             )
