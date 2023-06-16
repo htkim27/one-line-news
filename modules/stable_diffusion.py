@@ -4,7 +4,7 @@ from diffusers import StableDiffusionPipeline, EulerAncestralDiscreteScheduler, 
 from PIL import Image
 
 NUM_INFERENCE_STEPS = 20
-NEGATIVE_PROMPT = "text, watermark, poor drawn body, face, hand., out of frame, ugly, bad anatomy, extra windows, unnatural, unrealistic, cartoon, illustration, painting, drawing, unreal engine, black and white, monochrome, oversaturated, low saturation, surreal, underexposed, overexposed, jpeg artifacts, conjoined, aberrations, multiple levels, harsh lighting, anime, sketches, twisted, video game, photoshop, creative, UI, abstract, collapsed, rotten"
+NEGATIVE_PROMPT = "unnatural, unrealistic, cartoon, illustration, painting, drawing, unreal engine, black and white, monochrome, oversaturated, low saturation, surreal, underexposed, overexposed, jpeg artifacts, conjoined, aberrations, multiple levels, harsh lighting, anime, sketches, twisted, video game, photoshop, creative, UI, abstract, collapsed, rotten, ugly, bad anatomy, extra windows, text, watermark, out of frame"
 
 class StableDiffusion:
     def __init__(self, model_id:str) -> None:
