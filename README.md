@@ -34,7 +34,7 @@ python one_line_card_news_only_text.py
 ![Architecture](./image/architecture.png)
 
 ## Gradio (Temp)
-https://54f13e615df2d0fae2.gradio.live/
+https://bbc028904df8a65543.gradio.live/
 
 ## Hugging Face Model
 - 한 줄 뉴스 생성기 : https://huggingface.co/htkim27/one-line-news-v1.2
