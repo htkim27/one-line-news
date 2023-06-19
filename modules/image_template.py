@@ -6,7 +6,7 @@ class ImageTemplate:
     
     def __init__(self,
                  width_margin:int=50,
-                 height_margin:int=130,
+                 height_margin:int=180,
                  image_width_position:float=1/2,
                  image_height_postion:float=1/4,
                  font_size:int = 24,

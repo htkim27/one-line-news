@@ -1,7 +1,7 @@
 from transformers import pipeline, AutoModelForCausalLM
 import torch
 
-PROMPT_TEMPLATE = "### 명령문: 키워드를 기반으로 뉴스 기사 제목을 만들어줘.\n\n\n### 키워드: {keywords}\n\n\n### 답변: "
+PROMPT_TEMPLATE = "### 명령문: 키워드 <{keys_len}>개를 기반으로 뉴스 기사 제목을 만들어줘.\n\n\n### 키워드: {keywords}\n\n\n### 답변: "
 
 class OneLineNewsGenerator:
     
@@ -35,7 +35,9 @@ class OneLineNewsGenerator:
         eos_token_id:int=2,
         no_repeat_ngram_size:int=2)->str:
         
-        prompt = PROMPT_TEMPLATE.format(keywords = keywords)
+        keys_len = len(keywords.split(","))
+        
+        prompt = PROMPT_TEMPLATE.format(keys_len = keys_len, keywords = keywords)
         
         ans = self.pipe(
             prompt,

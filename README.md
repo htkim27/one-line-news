@@ -24,6 +24,11 @@ pip install xformers
 python one_line_card_news.py
 ```
 
+## One Line News (Only text)
+```bash
+python one_line_card_news_only_text.py
+```
+
 
 ## Architecture
 ![Architecture](./image/architecture.png)
@@ -32,7 +37,7 @@ python one_line_card_news.py
 https://54f13e615df2d0fae2.gradio.live/
 
 ## Hugging Face Model
-- 한 줄 뉴스 생성기 : https://huggingface.co/htkim27/one-line-news
+- 한 줄 뉴스 생성기 : https://huggingface.co/htkim27/one-line-news-v1.2
 - 자동 프롬프트 생성기 : https://huggingface.co/FredZhang7/distilgpt2-stable-diffusion-v2
 - STABLE_DIFFUSION : https://huggingface.co/stabilityai/stable-diffusion-2-1
 
@@ -46,6 +51,6 @@ https://54f13e615df2d0fae2.gradio.live/
 ![Example2](./image/example_2.png)
 
 ## Reference
+- Treform - github : https://github.com/MinSong2/treform
 - ployglot-ko-1.3b : https://huggingface.co/EleutherAI/polyglot-ko-1.3b
 - KoAlpaca - github : https://github.com/Beomi/KoAlpaca
-- treform - github : https://github.com/MinSong2/treform

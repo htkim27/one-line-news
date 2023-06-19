@@ -6,33 +6,19 @@ import gradio as gr
 from PIL import Image
 
 from modules import (TextRankExtractor,
-                     OneLineNewsGenerator, 
-                     GoogleTranslator,
-                     DistilGPT2, 
-                     StableDiffusion,
-                     ImageTemplate)
+                     OneLineNewsGenerator)
 
 
 STOPWORDS_PATH = "./stopwords/stopwordsKor.txt"
-GPT_MODEL = "htkim27/one-line-news-v1.2"
-DISTILGPT_MODEL = "FredZhang7/distilgpt2-stable-diffusion-v2"
-STABLE_DIFFUSION = "stabilityai/stable-diffusion-2-1-base"
-TEXT_FONT = "./font/korean_font.ttf"
-
+GPT_MODEL = "htkim27/one-line-news"
 
 # init
 keyword_extractor = TextRankExtractor(stopwords_path=STOPWORDS_PATH)
 one_line_news_generator = OneLineNewsGenerator(model_path=GPT_MODEL)
-translator = GoogleTranslator()
-auto_prompter = DistilGPT2(model_id=DISTILGPT_MODEL)
-stable_diffusion = StableDiffusion(model_id=STABLE_DIFFUSION)
-image_template = ImageTemplate(font_path=TEXT_FONT)
-
 
 # Keyword function
 def keyword_func(document:str)->str:
     """
-
     Args:
         document (str): news or namu wiki document
 
@@ -58,106 +44,36 @@ def one_line_news_func(keywords:str)->str:
     
     return one_line_news
 
-# Translator
-def translator_func(keywords:str)->str:
-    """
-
-    Args:
-        keywords (str): keywords from keyword_func
-
-    Returns:
-        str: keywords translated in English
-    """
-    translated_keywords = translator.translate(keywords)
-    
-    return translated_keywords
-
-# Distil GPT
-def auto_prompter_func(translated_keywords:str)->str:
-    """
-
-    Args:
-        translated_keywords (str): keywords translated in English
-
-    Returns:
-        str: auto generated prompt from distilgpt2 - stable diffusion
-    """
-    prompts :List[str] = [prompt for prompt in auto_prompter.generate(translated_keywords)]
-    prompt = prompts[0]
-    
-    return prompt
-
-# Stable Diffusion
-def stable_diffusion_func(prompt:str)->Image.Image:
-    """
-
-    Args:
-        prompt (str): English prompt
-
-    Returns:
-        Image.Image: Generated One Image
-    """
-    
-    image = stable_diffusion.generate(prompt)
-    
-    return image
-
-# Image Template
-def image_template_func(image:Image.Image,
-                        one_line_news:str) -> Image.Image:
-    """Make generated image into card-news shape
-
-    Args:
-        image (Image.Image): Generated Image
-        one_line_news (str): Text
-
-    Returns:
-        Image.Image: Card-News Image
-    """
-    
-    card_news = image_template.make(image=image, text=one_line_news)
-    
-    return card_news
-
-def generate_card_news(state:gr.State, document:str, style:str):
+def answer(state, text, style):
     
     if style == "doc":
-        keywords = keyword_func(document)
+        results = keyword_func(text)
+        results = one_line_news_func(results)
+        results = f"키워드 : {keyword_func(text)} \n One-Line-News : {one_line_news_func(results)}"
     elif style == "key":
-        keywords = document
+        print("텍스트 : ", text)
+        results = one_line_news_func(text)
+        results = f"키워드 : {text} \n One-Line-News : {one_line_news_func(results)}"
+
     else:
-        state = ["Please Select Style !!!"] 
-    
-    one_line_news = one_line_news_func(keywords)
-    
-    # 공짜 google translator 한 번 씩 에러가 남
-    try:
-        translated_keywords = translator_func(one_line_news+", "+keywords)
-    except:
-        print("Translator Error")
-        sleep(3)
-        translated_keywords = translator_func(one_line_news+", "+keywords)
+        results = "check the style of input !!!"
         
-    prompt = auto_prompter_func(translated_keywords)
-    image = stable_diffusion_func(prompt)
-    card_news = image_template_func(image, f"{one_line_news}\n[ 키워드 : {keywords} ]")
-    
-    state = [card_news]
+    state = [(text, results)]
     
     return state, state
+
 
 ############## Gradio Things ##############
 
 with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
     state = gr.State([])
     # state_chatbot = gr.State([])
-
     with gr.Row():
         gr.HTML(
             """<div style="text-align: center; max-width: 500px; margin: 0 auto;">
             <div>
                 <h1>One Line Card News</h1>
-                <h2>Long Text News 2 Short Card News</h2>
+                <h2>Long Text News 2 Short Card News (Only Text Version)</h2>
 
             </div>
             <div>
@@ -165,17 +81,16 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
             </div>
         </div>"""
         )
-
     with gr.Row():
         with gr.Column(scale=1, min_width=600):
             with gr.Row():
-                style = gr.Radio(["key", "doc"], label="check input style", info="key : 키워드 \n doc : 뉴스 본문")
+                style = gr.Radio(["key", "doc"], label="check input style", info="off를 누르면 완전 reset입니다!\n24문장까지 반영")
 
             with gr.Row():
                 gr.HTML(
                     """<div style="text-align: center; max-width: 500px; margin: 0 auto;">
                     <div>
-                        <h3>👇 (key) 키워드 넣기[3-6개] 또는 (doc) 뉴스기사 넣기 👇</h3>
+                        <h3>👇 키워드 넣기[3-6개] (key) 또는 뉴스기사 넣기 (doc) 👇</h3>
                     </div>
                 </div>"""
                 )
@@ -184,14 +99,12 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
                 text = gr.Textbox(label="text", placeholder="키워드를 입력할 때는 콤마(,)로 구분해주세요").style(
                     container=True
                 )
-
-        with gr.Column(scale=2, min_width=600):
-
+                                    
+        with gr.Column(scale=2, min_width=600):  
             with gr.Row():
-                gallery = gr.Gallery(elem_id="card_news", 
-                                    label="Card-News", 
-                                    show_label=True)
-                
+                chatbot = gr.Chatbot(elem_id="chatbot")
+
+    
     image_path = "./deeptext_logo.png"
     link = "https://github.com/htkim27/one-line-news"
     with gr.Row():
@@ -337,10 +250,7 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
         </div>"""
         )
 
-    text.submit(generate_card_news, [state, text, style], [state, gallery])
-    
-    # txt.submit(answer, [state, state_chatbot, txt], [state, state_chatbot, chatbot], scroll_to_output=True)
-    # txt.submit(lambda: "", None, txt, scroll_to_output=True)
+    text.submit(answer, [state, text, style], [state, chatbot], scroll_to_output=True)
 
 # share=True : 외부 IP에서 접근 가능한 public link 생성
 demo.launch(debug=True, 
