@@ -1,20 +1,17 @@
-from typing import List, Iterable
-
-from time import sleep
+from typing import List
 
 import gradio as gr
-from PIL import Image
 
 from modules import (TextRankExtractor,
                      OneLineNewsGenerator)
 
 
 STOPWORDS_PATH = "./stopwords/stopwordsKor.txt"
-GPT_MODEL = "htkim27/one-line-news"
+GPT_MODEL = "htkim27/one-line-news-v1.2"
 
 # init
 keyword_extractor = TextRankExtractor(stopwords_path=STOPWORDS_PATH)
-one_line_news_generator = OneLineNewsGenerator(model_path=GPT_MODEL)
+one_line_news_generator = OneLineNewsGenerator(model_path=GPT_MODEL, load_in_8bit=True)
 
 # Keyword function
 def keyword_func(document:str)->str:
@@ -84,7 +81,7 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
     with gr.Row():
         with gr.Column(scale=1, min_width=600):
             with gr.Row():
-                style = gr.Radio(["key", "doc"], label="check input style", info="off를 누르면 완전 reset입니다!\n24문장까지 반영")
+                style = gr.Radio(["key", "doc"], label="check input style")
 
             with gr.Row():
                 gr.HTML(
@@ -255,6 +252,6 @@ with gr.Blocks(css="#card_news .overflow-y-auto{height:2000px}") as demo:
 # share=True : 외부 IP에서 접근 가능한 public link 생성
 demo.launch(debug=True, 
             server_name="0.0.0.0", 
-            server_port=7777,
+            server_port=7779,
             share=True
             )

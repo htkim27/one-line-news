@@ -5,7 +5,7 @@ PROMPT_TEMPLATE = "### 명령문: 키워드 <{keys_len}>개를 기반으로 뉴�
 
 class OneLineNewsGenerator:
     
-    def __init__(self, model_path:str)->None:
+    def __init__(self, model_path:str, load_in_8bit:bool=False)->None:
         
         # one line text news generator
         self.model = AutoModelForCausalLM.from_pretrained(
@@ -14,7 +14,7 @@ class OneLineNewsGenerator:
             torch_dtype = torch.float16,
             # revision="fp16",
             low_cpu_mem_usage = True,
-            # load_in_8bit=True,
+            load_in_8bit=load_in_8bit,
             # revision="8bit",
         )
 
