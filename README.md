@@ -38,7 +38,7 @@ python one_line_card_news_only_text.py
 https://8ef6cb4ce33c1acbae.gradio.live
 
 - 카드뉴스 생성기
-https://f14e060f72a06c07bb.gradio.live
+If someone needs it, I will open!
 
 ## Hugging Face Model
 - 한 줄 뉴스 생성기 : https://huggingface.co/htkim27/one-line-news-v1.2
@@ -50,7 +50,7 @@ https://f14e060f72a06c07bb.gradio.live
 
 ![Example](./image/example.png)
 
-- 실제 예시 ㅠ
+- 실제 예시
 
 ![Example2](./image/example_2.png)
 
